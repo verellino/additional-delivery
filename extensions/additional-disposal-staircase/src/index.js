@@ -8,6 +8,7 @@ import {
   InlineStack,
   InlineLayout,
   Text,
+  TextBlock,
   Divider,
   Image,
   Banner,
@@ -15,17 +16,18 @@ import {
   Button,
   SkeletonImage,
   SkeletonText,
+  Stepper
 } from "@shopify/checkout-ui-extensions";
 
 const PRODUCT_VARIANTS_DATA = [
   {
-    id: "gid://shopify/ProductVariant/44226636808482",
+    id: "gid://shopify/ProductVariant/44234170269986",
     img: "https://via.placeholder.com/100/F1F1F1?text=L1",
     title: "Large Item Disposal",
     price: 50.0,
   },
   {
-    id: "gid://shopify/ProductVariant/8053144355106",
+    id: "gid://shopify/ProductVariant/44234170302754",
     img: "https://via.placeholder.com/100/F1F1F1?text=M1",
     title: "Medium Item Disposal",
     price: 20.0,
@@ -33,10 +35,16 @@ const PRODUCT_VARIANTS_DATA = [
 ];
 const PRODUCT_STAIRCASE_DATA = [
   {
-    id: "gid://shopify/ProductVariant/44226636808482",
-    img: "https://via.placeholder.com/100/F1F1F1?text=P1",
-    title: "1 Level Staircase",
+    id: "gid://shopify/ProductVariant/44234532159778",
+    img: "https://via.placeholder.com/100/F1F1F1?text=S1",
+    title: "Staircase Charge",
     price: 10.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/44234532192546",
+    img: "https://via.placeholder.com/100/F1F1F1?text=S1",
+    title: "Staircase Charge",
+    price: 20.0,
   },
 ];
 
@@ -53,6 +61,7 @@ extend(
     let furnitureDisposal= false;
     let stairValue = "";
     let staircaseFee = false;
+    let staircaseFloor = 0;
     let state = {
       metafields: metafields.current,
       showDeliveryInstructions: false,
@@ -150,6 +159,7 @@ extend(
     const titleStaircaseMarkup = root.createText("");
     const priceStaircaseMarkup = root.createText("");
     const merchandiseStaircase = { id: "" };
+    const staircasePrice = root.createText("");
 
     // Defines the "Add" Button component used in the app
     const addButtonComponent = root.createComponent(
@@ -197,7 +207,7 @@ extend(
         kind: "secondary",
         loading: false,
         onPress: async () => {
-          addButtonComponent.updateProps({ loading: true });
+          addButtonComponentMediumDisposal.updateProps({ loading: true });
 
           // Apply the cart lines change
           const result = await applyCartLinesChange({
@@ -206,7 +216,7 @@ extend(
             quantity: 1,
           });
 
-          addButtonComponent.updateProps({ loading: false });
+          addButtonComponentMediumDisposal.updateProps({ loading: false });
 
           if (result.type === "error") {
             // An error occurred adding the cart line
@@ -242,7 +252,7 @@ extend(
           const result = await applyCartLinesChange({
             type: "addCartLine",
             merchandiseId: merchandiseStaircase.id,
-            quantity: 1,
+            quantity: staircaseFloor,
           });
 
           addButtonComponentStair.updateProps({ loading: false });
@@ -285,13 +295,9 @@ extend(
                   furnitureDisposal = true;
                 } else {
                   furnitureDisposal = false;
-                  disposalComponent.removeChild(addDisposal);
-                  
+                  disposalComponent.removeChild(disposalBlock); 
                 }
                 renderApp();
-                console.log(
-                  `onChange event with value: ${value}, ${furnitureDisposal}`
-                );
               },
             },
             [
@@ -304,15 +310,9 @@ extend(
         ])
     ])
     const addDisposal = root.createComponent(
-      InlineLayout,
+      BlockStack,
       {
         spacing: "base",
-        // Use the `columns` property to set the width of the columns
-        // Image: column should be 64px wide
-        // BlockStack: column, which contains the title and price, should "fill" all available space
-        // Button: column should "auto" size based on the intrinsic width of the elements
-        columns: [64, "fill", "auto"],
-        blockAlignment: "center",
       },
       [
         imageComponent,
@@ -326,15 +326,9 @@ extend(
       ]
     );
     const addDisposalMedium = root.createComponent(
-      InlineLayout,
+      BlockStack,
       {
         spacing: "base",
-        // Use the `columns` property to set the width of the columns
-        // Image: column should be 64px wide
-        // BlockStack: column, which contains the title and price, should "fill" all available space
-        // Button: column should "auto" size based on the intrinsic width of the elements
-        columns: [64, "fill", "auto"],
-        blockAlignment: "center",
       },
       [
         imageMediumComponent,
@@ -346,6 +340,14 @@ extend(
         ]),
         addButtonComponentMediumDisposal,
       ]
+    );
+    const disposalBlock = root.createComponent(
+      InlineLayout,
+      {
+        spacing: "loose",
+        columns: ["33%", "33%", "fill"],
+      },
+      [addDisposal, addDisposalMedium]
     );
 
     const staircaseComponent = root.createComponent(BlockStack,{ spacing: "loose" },[
@@ -363,12 +365,9 @@ extend(
                   staircaseFee = true;
                 } else {
                   staircaseFee = false;
-                  staircaseComponent.removeChild(addStaricase)
+                  staircaseComponent.removeChild(staircaseBlock);
                 }
                 renderApp();
-                console.log(
-                  `onChange event with value: ${value}, ${staircaseFee}`
-                );
               },
             },
             [
@@ -381,6 +380,22 @@ extend(
         ])
       ]
     );
+    const stepperFloor = root.createComponent(Stepper, {
+      label: "Floors",
+      value: 0,
+      onChange: (value) => {
+        staircaseFloor = value
+        renderApp();
+      }
+    });
+    const floorDescription = root.createComponent(InlineStack, undefined, [
+      root.createComponent(
+        TextBlock,
+        undefined,
+        `Total cost for your staircase delivery:`
+      ),
+      root.createComponent(Text, { appearance: "accent" }, [staircasePrice]),
+    ]);
     const addStaricase = root.createComponent(
       InlineLayout,
       {
@@ -406,6 +421,11 @@ extend(
         ]),
         addButtonComponentStair,
       ]
+    );
+    const staircaseBlock = root.createComponent(
+      BlockStack,
+      { spacing: "loose" },
+      [stepperFloor, floorDescription, addButtonComponentStair]
     );
 
     // Defines the main app responsible for rendering a product offer
@@ -442,8 +462,6 @@ extend(
       );
       // Choose the first available product variant on offer or display the default fallback product
       const { id, img, title, price } = productsOnOffer[0] || products[0];
-      
-      console.log(products);
       // Localize the currency for international merchants and customers
       const renderPrice = i18n.formatCurrency(price);
       const renderPriceMedium = i18n.formatCurrency(products[1].price);
@@ -473,13 +491,16 @@ extend(
       });
       priceStaircaseMarkup.updateText(renderPriceStaircase);
       merchandiseStaircase.id = productsStaircase[0].id;
-
+      
+      let staircaseCharge = staircaseFloor * productsStaircase[0].price;
+      const renderStaircaseCharge = i18n.formatCurrency(staircaseCharge);
+      staircasePrice.updateText(renderStaircaseCharge);
+      
       if (furnitureDisposal) {
-        disposalComponent.appendChild(addDisposal);
-        disposalComponent.appendChild(addDisposalMedium);
+        disposalComponent.appendChild(disposalBlock);
       }
       if (staircaseFee) {
-        staircaseComponent.appendChild(addStaricase);
+        staircaseComponent.appendChild(staircaseBlock);
       }
 
       // Prevent against unnecessary re-renders
