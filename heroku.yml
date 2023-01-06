@@ -1,0 +1,8 @@
+build:
+  docker:
+    web: Dockerfile
+  config:
+    SHOPIFY_API_KEY: 165af8c6a735291018bd7c4c80994e29>
+    SHOPIFY_API_SECRET: 08e3b7748ebdac50803d7731d2e8308b
+    SCOPES: write_products
+    PORT: 8081
