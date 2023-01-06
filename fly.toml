@@ -6,6 +6,12 @@ kill_timeout = 5
 processes = []
 
 [env]
+ NODE_ENV = "production"
+  BACKEND_PORT = "8080"
+  HOST = ---
+  SHOPIFY_API_KEY = ---
+  SCOPES = "write_themes"
+  API_KEY = ---
 
 [experimental]
   allowed_public_ports = []
