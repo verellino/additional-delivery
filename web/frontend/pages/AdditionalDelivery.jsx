@@ -5,10 +5,10 @@ export default function PageName() {
   return (
     <Page>
       <TitleBar
-        title="Page name"
+        title="Additional Delivery"
         primaryAction={{
-          content: "Primary action",
-          onAction: () => console.log("Primary action"),
+          content: "Items Disposal",
+          onAction: () => console.log("Items Disposal"),
         }}
         secondaryActions={[
           {
@@ -20,13 +20,13 @@ export default function PageName() {
       <Layout>
         <Layout.Section>
           <Card sectioned>
-            <Heading>Heading</Heading>
+            <Heading>Items Disposal</Heading>
             <TextContainer>
               <p>Body</p>
             </TextContainer>
           </Card>
           <Card sectioned>
-            <Heading>Heading</Heading>
+            <Heading>Staircase Fees</Heading>
             <TextContainer>
               <p>Body</p>
             </TextContainer>

@@ -24,12 +24,14 @@ const PRODUCT_VARIANTS_DATA = [
     id: "gid://shopify/ProductVariant/44234170269986",
     img: "https://via.placeholder.com/100/F1F1F1?text=L1",
     title: "Large Item Disposal",
+    description: "Sofa, Bedframe, Mattress, Dining Table, Study Desk, 4-6 Chairs, Tv Console, Sideboard, Shelves & Cabinet",
     price: 50.0,
   },
   {
     id: "gid://shopify/ProductVariant/44234170302754",
     img: "https://via.placeholder.com/100/F1F1F1?text=M1",
     title: "Medium Item Disposal",
+    description: "Dining Chair, Bench, Stool/Barstool, Bean Bag, Lounge/Arm Chair, Office Chair, Coffee Table, Side Table, Bedside Table",
     price: 20.0,
   },
 ];
@@ -62,6 +64,10 @@ extend(
     let stairValue = "";
     let staircaseFee = false;
     let staircaseFloor = 0;
+    let wardrobeItems = 0;
+    let nonwardrobeItems = 0;
+    let electronicItems = 0;
+    let totalStaircaseFee = 0;
     let state = {
       metafields: metafields.current,
       showDeliveryInstructions: false,
@@ -138,6 +144,7 @@ extend(
     });
     const titleMarkup = root.createText("");
     const priceMarkup = root.createText("");
+    const itemDescription = root.createText("");
     const merchandise = { id: "" };
     const imageMediumComponent = root.createComponent(Image, {
       border: "base",
@@ -148,6 +155,7 @@ extend(
     });
     const titleMediumMarkup = root.createText("");
     const priceMediumMarkup = root.createText("");
+    const itemMediumDescription = root.createText("");
     const merchandiseMD = { id: "" };
     const imageStaircaseComponent = root.createComponent(Image, {
       border: "base",
@@ -160,6 +168,9 @@ extend(
     const priceStaircaseMarkup = root.createText("");
     const merchandiseStaircase = { id: "" };
     const staircasePrice = root.createText("");
+    const wardrobePrice = root.createText("");
+    const nonwardrobePrice = root.createText("");
+    const electronicPrice = root.createText("");
 
     // Defines the "Add" Button component used in the app
     const addButtonComponent = root.createComponent(
@@ -252,7 +263,7 @@ extend(
           const result = await applyCartLinesChange({
             type: "addCartLine",
             merchandiseId: merchandiseStaircase.id,
-            quantity: staircaseFloor,
+            quantity: totalStaircaseFee,
           });
 
           addButtonComponentStair.updateProps({ loading: false });
@@ -309,6 +320,22 @@ extend(
           ),
         ])
     ])
+    const itemText = root.createComponent(BlockStack, { spacing: "none" }, [
+      root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
+        titleMarkup,
+      ]),
+      root.createComponent(Text, { appearance: "subdued" }, [priceMarkup]),
+      root.createComponent(Button, {
+        kind: 'plain',
+        inlineAlignment: 'start',
+        appearance: 'monochrome',
+        onPress: () => {
+          itemText.appendChild(
+            root.createComponent(TextBlock, { size: 'small'}, [itemDescription])
+          );
+        }
+      }, "Description")
+    ])
     const addDisposal = root.createComponent(
       BlockStack,
       {
@@ -316,13 +343,36 @@ extend(
       },
       [
         imageComponent,
-        root.createComponent(BlockStack, { spacing: "none" }, [
-          root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
-            titleMarkup,
-          ]),
-          root.createComponent(Text, { appearance: "subdued" }, [priceMarkup]),
-        ]),
+        itemText,
         addButtonComponent,
+      ]
+    );
+    const itemMediumText = root.createComponent(
+      BlockStack,
+      { spacing: "none" },
+      [
+        root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
+          titleMediumMarkup,
+        ]),
+        root.createComponent(Text, { appearance: "subdued" }, [
+          priceMediumMarkup,
+        ]),
+        root.createComponent(
+          Button,
+          {
+            kind: "plain",
+            inlineAlignment: "start",
+            appearance: "monochrome",
+            onPress: () => {
+              itemMediumText.appendChild(
+                root.createComponent(TextBlock, { size: "small" }, [
+                  itemMediumDescription,
+                ])
+              );
+            },
+          },
+          "Description"
+        ),
       ]
     );
     const addDisposalMedium = root.createComponent(
@@ -332,12 +382,7 @@ extend(
       },
       [
         imageMediumComponent,
-        root.createComponent(BlockStack, { spacing: "none" }, [
-          root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
-            titleMediumMarkup,
-          ]),
-          root.createComponent(Text, { appearance: "subdued" }, [priceMediumMarkup]),
-        ]),
+        itemMediumText,
         addButtonComponentMediumDisposal,
       ]
     );
@@ -380,21 +425,86 @@ extend(
         ])
       ]
     );
-    const stepperFloor = root.createComponent(Stepper, {
-      label: "Floors",
-      value: 0,
-      onChange: (value) => {
-        staircaseFloor = value
-        renderApp();
-      }
-    });
-    const floorDescription = root.createComponent(InlineStack, undefined, [
+    const wardrobeInput = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
       root.createComponent(
         TextBlock,
         undefined,
+        `Wardrobe Items:`
+      ),
+      root.createComponent(Stepper, {
+        label: 'Quantity',
+        value: 0,
+        onChange: (value) => {
+          wardrobeItems = value
+          renderApp();
+        }
+      })
+    ]);
+    const nonwardrobeInput = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
+      root.createComponent(
+        TextBlock,
+        undefined,
+        `Non-Wardrobe Items:`
+      ),
+      root.createComponent(Stepper, {
+        label: 'Quantity',
+        value: 0,
+        onChange: (value) => {
+          nonwardrobeItems = value
+          renderApp();
+        }
+      })
+    ]);
+    const electronicsInput = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
+      root.createComponent(
+        TextBlock,
+        undefined,
+        `Electronic Items:`
+      ),
+      root.createComponent(Stepper, {
+        label: 'Quantity',
+        value: 0,
+        onChange: (value) => {
+          electronicItems = value
+          renderApp();
+        }
+      })
+    ]);
+    const stepperFloor = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
+      root.createComponent(TextBlock, undefined, `Amount of Floors:`),
+      root.createComponent(Stepper, {
+        label: "Floors",
+        value: 0,
+        onChange: (value) => {
+          staircaseFloor = value
+          renderApp();
+        }
+      }),
+    ]);
+    const floorDescription = root.createComponent(BlockStack, undefined, [
+      root.createComponent(
+        Text,
+        undefined,
         `Total cost for your staircase delivery:`
       ),
-      root.createComponent(Text, { appearance: "accent" }, [staircasePrice]),
+      root.createComponent(BlockStack, undefined, [
+        root.createComponent(InlineStack, undefined, [
+          root.createComponent(Text, {}, "Wardrobe items charge:"),
+          root.createComponent(Text, {}, [wardrobePrice]),
+        ]),
+        root.createComponent(InlineStack, undefined, [
+          root.createComponent(Text, {}, "Non-Wardrobe items charge:"),
+          root.createComponent(Text, {}, [nonwardrobePrice]),
+        ]),
+        root.createComponent(InlineStack, undefined, [
+          root.createComponent(Text, {}, "Electronic items charge:"),
+          root.createComponent(Text, {}, [electronicPrice]),
+        ]),
+      ]),
+      root.createComponent(InlineStack, undefined, [
+        root.createComponent(Text, { appearance: "accent" }, "Total:"),
+        root.createComponent(Text, { appearance: "accent" }, [staircasePrice]),
+      ]),
     ]);
     const addStaricase = root.createComponent(
       InlineLayout,
@@ -425,7 +535,7 @@ extend(
     const staircaseBlock = root.createComponent(
       BlockStack,
       { spacing: "loose" },
-      [stepperFloor, floorDescription, addButtonComponentStair]
+      [wardrobeInput, nonwardrobeInput, electronicsInput, stepperFloor, floorDescription, addButtonComponentStair]
     );
 
     // Defines the main app responsible for rendering a product offer
@@ -461,7 +571,7 @@ extend(
           !lines.current.map((item) => item.merchandise.id).includes(product.id)
       );
       // Choose the first available product variant on offer or display the default fallback product
-      const { id, img, title, price } = productsOnOffer[0] || products[0];
+      const { id, img, title, description, price } = productsOnOffer[0] || products[0];
       // Localize the currency for international merchants and customers
       const renderPrice = i18n.formatCurrency(price);
       const renderPriceMedium = i18n.formatCurrency(products[1].price);
@@ -470,6 +580,7 @@ extend(
       // Bind data to the components
       imageComponent.updateProps({ source: img });
       titleMarkup.updateText(title);
+      itemDescription.updateText(description);
       addButtonComponent.updateProps({
         accessibilityLabel: `Add ${title} to cart`,
       });
@@ -478,6 +589,7 @@ extend(
 
       imageMediumComponent.updateProps({ source: products[1].img });
       titleMediumMarkup.updateText(products[1].title);
+      itemMediumDescription.updateText(products[1].description);
       addButtonComponentMediumDisposal.updateProps({
         accessibilityLabel: `Add ${products[1].title} to cart`,
       });
@@ -492,9 +604,24 @@ extend(
       priceStaircaseMarkup.updateText(renderPriceStaircase);
       merchandiseStaircase.id = productsStaircase[0].id;
       
-      let staircaseCharge = staircaseFloor * productsStaircase[0].price;
+      let wardrobeCharge = 2 * wardrobeItems * staircaseFloor * productsStaircase[0].price;
+      let wardrobeFee = 2 * wardrobeItems * staircaseFloor;
+      const renderWardrobeCharge = i18n.formatCurrency(wardrobeCharge);
+      let nonwardrobeCharge = nonwardrobeItems * staircaseFloor * productsStaircase[0].price;
+      let nonwardrobeFee = nonwardrobeItems * staircaseFloor;
+      const renderNonwardrobeCharge = i18n.formatCurrency(nonwardrobeCharge);
+      let electronicCharge = 2 * electronicItems * staircaseFloor * productsStaircase[0].price;
+      let electronicFee = 2 * electronicItems * staircaseFloor;
+      const renderElectronicCharge =
+        i18n.formatCurrency(electronicCharge);
+      let staircaseCharge = wardrobeCharge + nonwardrobeCharge + electronicCharge;
       const renderStaircaseCharge = i18n.formatCurrency(staircaseCharge);
+      wardrobePrice.updateText(renderWardrobeCharge);
+      nonwardrobePrice.updateText(renderNonwardrobeCharge);
+      electronicPrice.updateText(renderElectronicCharge);
       staircasePrice.updateText(renderStaircaseCharge);
+
+      totalStaircaseFee = wardrobeFee + nonwardrobeFee + electronicFee
       
       if (furnitureDisposal) {
         disposalComponent.appendChild(disposalBlock);
