@@ -16,36 +16,39 @@ import {
   Button,
   SkeletonImage,
   SkeletonText,
-  Stepper
+  Stepper,
+  View
 } from "@shopify/checkout-ui-extensions";
 
 const PRODUCT_VARIANTS_DATA = [
   {
-    id: "gid://shopify/ProductVariant/44234170269986",
+    id: "gid://shopify/ProductVariant/40669571743859",
     img: "https://via.placeholder.com/100/F1F1F1?text=L1",
     title: "Large Item Disposal",
-    description: "Sofa, Bedframe, Mattress, Dining Table, Study Desk, 4-6 Chairs, Tv Console, Sideboard, Shelves & Cabinet",
+    description:
+      "Sofa, Bedframe, Mattress, Dining Table, Study Desk, 4-6 Chairs, Tv Console, Sideboard, Shelves & Cabinet",
     price: 50.0,
   },
   {
-    id: "gid://shopify/ProductVariant/44234170302754",
+    id: "gid://shopify/ProductVariant/40669571776627",
     img: "https://via.placeholder.com/100/F1F1F1?text=M1",
     title: "Medium Item Disposal",
-    description: "Dining Chair, Bench, Stool/Barstool, Bean Bag, Lounge/Arm Chair, Office Chair, Coffee Table, Side Table, Bedside Table",
+    description:
+      "Dining Chair, Bench, Stool/Barstool, Bean Bag, Lounge/Arm Chair, Office Chair, Coffee Table, Side Table, Bedside Table",
     price: 20.0,
   },
 ];
 const PRODUCT_STAIRCASE_DATA = [
   {
-    id: "gid://shopify/ProductVariant/44234532159778",
+    id: "gid://shopify/ProductVariant/40669575118963",
     img: "https://via.placeholder.com/100/F1F1F1?text=S1",
-    title: "Staircase Charge",
+    title: "Non-Wardrobe Item",
     price: 10.0,
   },
   {
-    id: "gid://shopify/ProductVariant/44234532192546",
+    id: "gid://shopify/ProductVariant/40669571940467",
     img: "https://via.placeholder.com/100/F1F1F1?text=S1",
-    title: "Staircase Charge",
+    title: "Wardrobe Item",
     price: 20.0,
   },
 ];
@@ -68,6 +71,8 @@ extend(
     let nonwardrobeItems = 0;
     let electronicItems = 0;
     let totalStaircaseFee = 0;
+    let itemDesc = false;
+    let itemMediumDesc = false;
     let state = {
       metafields: metafields.current,
       showDeliveryInstructions: false,
@@ -178,6 +183,7 @@ extend(
       {
         kind: "secondary",
         loading: false,
+        inlineSize: "fill",
         onPress: async () => {
           addButtonComponent.updateProps({ loading: true });
 
@@ -217,6 +223,7 @@ extend(
       {
         kind: "secondary",
         loading: false,
+        inlineSize: 'fill',
         onPress: async () => {
           addButtonComponentMediumDisposal.updateProps({ loading: true });
 
@@ -329,11 +336,7 @@ extend(
         kind: 'plain',
         inlineAlignment: 'start',
         appearance: 'monochrome',
-        onPress: () => {
-          itemText.appendChild(
-            root.createComponent(TextBlock, { size: 'small'}, [itemDescription])
-          );
-        }
+        onPress: () => showDesc()
       }, "Description")
     ])
     const addDisposal = root.createComponent(
@@ -342,14 +345,20 @@ extend(
         spacing: "base",
       },
       [
-        imageComponent,
-        itemText,
-        addButtonComponent,
+        root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
+          imageComponent,
+          itemText,
+        ]),
+        root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
+          addButtonComponent,
+        ]),
       ]
     );
     const itemMediumText = root.createComponent(
       BlockStack,
-      { spacing: "none" },
+      {
+        spacing: "none"
+      },
       [
         root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
           titleMediumMarkup,
@@ -363,27 +372,48 @@ extend(
             kind: "plain",
             inlineAlignment: "start",
             appearance: "monochrome",
-            onPress: () => {
-              itemMediumText.appendChild(
-                root.createComponent(TextBlock, { size: "small" }, [
-                  itemMediumDescription,
-                ])
-              );
-            },
+            onPress: () => showMediumDesc()
           },
           "Description"
         ),
       ]
     );
+    function showDesc() {
+      {
+        itemDesc = !itemDesc;
+        const itemDescBlock = root.createComponent(Text, { size: "small", padding: 'base' }, [itemDescription])
+        if (itemDesc) {
+          itemText.appendChild(itemDescBlock);
+        } else {
+          itemText.removeChild(itemDescBlock);
+        }
+      }
+    };
+
+    function showMediumDesc() {
+      {
+        itemMediumDesc = !itemMediumDesc;
+        const mediumDescBlock = root.createComponent(Text, { size: "small", padding: 'base' }, [itemDescription])
+        if (itemMediumDesc) {
+          itemMediumText.appendChild(mediumDescBlock);
+        } else {
+          itemMediumText.removeChild(mediumDescBlock);
+        }
+      }
+    };
     const addDisposalMedium = root.createComponent(
       BlockStack,
       {
         spacing: "base",
       },
       [
-        imageMediumComponent,
-        itemMediumText,
-        addButtonComponentMediumDisposal,
+        root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
+          imageMediumComponent,
+          itemMediumText,
+        ]),
+        root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
+          addButtonComponentMediumDisposal,
+        ]),
       ]
     );
     const disposalBlock = root.createComponent(
@@ -482,11 +512,6 @@ extend(
       }),
     ]);
     const floorDescription = root.createComponent(BlockStack, undefined, [
-      root.createComponent(
-        Text,
-        undefined,
-        `Total cost for your staircase delivery:`
-      ),
       root.createComponent(BlockStack, undefined, [
         root.createComponent(InlineStack, undefined, [
           root.createComponent(Text, {}, "Wardrobe items charge:"),
@@ -496,13 +521,9 @@ extend(
           root.createComponent(Text, {}, "Non-Wardrobe items charge:"),
           root.createComponent(Text, {}, [nonwardrobePrice]),
         ]),
-        root.createComponent(InlineStack, undefined, [
-          root.createComponent(Text, {}, "Electronic items charge:"),
-          root.createComponent(Text, {}, [electronicPrice]),
-        ]),
       ]),
       root.createComponent(InlineStack, undefined, [
-        root.createComponent(Text, { appearance: "accent" }, "Total:"),
+        root.createComponent(Text, { appearance: "accent" }, "Total staircase charge:"),
         root.createComponent(Text, { appearance: "accent" }, [staircasePrice]),
       ]),
     ]);
@@ -535,7 +556,7 @@ extend(
     const staircaseBlock = root.createComponent(
       BlockStack,
       { spacing: "loose" },
-      [wardrobeInput, nonwardrobeInput, electronicsInput, stepperFloor, floorDescription, addButtonComponentStair]
+      [wardrobeInput, nonwardrobeInput, stepperFloor, floorDescription, addButtonComponentStair]
     );
 
     // Defines the main app responsible for rendering a product offer
@@ -604,8 +625,8 @@ extend(
       priceStaircaseMarkup.updateText(renderPriceStaircase);
       merchandiseStaircase.id = productsStaircase[0].id;
       
-      let wardrobeCharge = 2 * wardrobeItems * staircaseFloor * productsStaircase[0].price;
-      let wardrobeFee = 2 * wardrobeItems * staircaseFloor;
+      let wardrobeCharge = wardrobeItems * staircaseFloor * productsStaircase[1].price;
+      let wardrobeFee = wardrobeItems * staircaseFloor;
       const renderWardrobeCharge = i18n.formatCurrency(wardrobeCharge);
       let nonwardrobeCharge = nonwardrobeItems * staircaseFloor * productsStaircase[0].price;
       let nonwardrobeFee = nonwardrobeItems * staircaseFloor;
@@ -614,11 +635,10 @@ extend(
       let electronicFee = 2 * electronicItems * staircaseFloor;
       const renderElectronicCharge =
         i18n.formatCurrency(electronicCharge);
-      let staircaseCharge = wardrobeCharge + nonwardrobeCharge + electronicCharge;
+      let staircaseCharge = wardrobeCharge + nonwardrobeCharge;
       const renderStaircaseCharge = i18n.formatCurrency(staircaseCharge);
       wardrobePrice.updateText(renderWardrobeCharge);
       nonwardrobePrice.updateText(renderNonwardrobeCharge);
-      electronicPrice.updateText(renderElectronicCharge);
       staircasePrice.updateText(renderStaircaseCharge);
 
       totalStaircaseFee = wardrobeFee + nonwardrobeFee + electronicFee
