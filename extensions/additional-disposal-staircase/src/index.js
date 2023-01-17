@@ -172,6 +172,7 @@ extend(
     const titleStaircaseMarkup = root.createText("");
     const priceStaircaseMarkup = root.createText("");
     const merchandiseStaircase = { id: "" };
+    const wardrobeStaircase = { id: "" };
     const staircasePrice = root.createText("");
     const wardrobePrice = root.createText("");
     const nonwardrobePrice = root.createText("");
@@ -270,9 +271,16 @@ extend(
           const result = await applyCartLinesChange({
             type: "addCartLine",
             merchandiseId: merchandiseStaircase.id,
-            quantity: totalStaircaseFee,
+            quantity: nonwardrobeItems * staircaseFloor,
           });
 
+          applyCartLinesChange({
+            type: "addCartLine",
+            merchandiseId: wardrobeStaircase.id,
+            quantity: wardrobeItems * staircaseFloor,
+          });
+
+          console.log(result)
           addButtonComponentStair.updateProps({ loading: false });
 
           if (result.type === "error") {
@@ -285,11 +293,22 @@ extend(
               { status: "critical" },
               ["There was an issue adding this product. Please try again."]
             );
+          }
+          if (result.type === "success") {
+            // An error occurred adding the cart line
+            // Verify that you're using a valid product variant ID
+            // For example, 'gid://shopify/ProductVariant/123'
+            console.error(result.message);
+            const successComponent = root.createComponent(
+              Banner,
+              { status: "success" },
+              ["Additional staircase fee successfully added to cart!"]
+            );
             // Render an error Banner as a child of the top-level app component for three seconds, then remove it
             const topLevelComponent = root.children[0];
-            topLevelComponent.appendChild(errorComponent);
+            topLevelComponent.appendChild(successComponent);
             setTimeout(
-              () => topLevelComponent.removeChild(errorComponent),
+              () => topLevelComponent.removeChild(successComponent),
               3000
             );
           }
@@ -624,6 +643,7 @@ extend(
       });
       priceStaircaseMarkup.updateText(renderPriceStaircase);
       merchandiseStaircase.id = productsStaircase[0].id;
+      wardrobeStaircase.id = productsStaircase[1].id;
       
       let wardrobeCharge = wardrobeItems * staircaseFloor * productsStaircase[1].price;
       let wardrobeFee = wardrobeItems * staircaseFloor;
@@ -641,7 +661,7 @@ extend(
       nonwardrobePrice.updateText(renderNonwardrobeCharge);
       staircasePrice.updateText(renderStaircaseCharge);
 
-      totalStaircaseFee = wardrobeFee + nonwardrobeFee + electronicFee
+      totalStaircaseFee = wardrobeFee + nonwardrobeFee
       
       if (furnitureDisposal) {
         disposalComponent.appendChild(disposalBlock);

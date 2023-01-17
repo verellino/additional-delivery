@@ -31,37 +31,15 @@ export default function HomePage() {
                 <TextContainer spacing="loose">
                   <Heading>Addition Delivery Fees</Heading>
                   <p>
-                    Your app is ready to explore! It contains everything you
-                    need to get started including the{" "}
-                    <Link url="https://polaris.shopify.com/" external>
-                      Polaris design system
+                    Item Disposals and Staircase Fees added to checkout page.
+                  </p>
+                  <p>
+                    You can now edit, add or remove the additional fees through the
+                    {" "}
+                    <Link url="https://megafurniture.myshopify.com/admin/settings/checkout">
+                      Checkout Editor
                     </Link>
                     ,{" "}
-                    <Link url="https://shopify.dev/api/admin-graphql" external>
-                      Shopify Admin API
-                    </Link>
-                    , and{" "}
-                    <Link
-                      url="https://shopify.dev/apps/tools/app-bridge"
-                      external
-                    >
-                      App Bridge
-                    </Link>{" "}
-                    UI library and components.
-                  </p>
-                  <p>
-                    Ready to go? Start populating your app with some sample
-                    products to view and test in your store.{" "}
-                  </p>
-                  <p>
-                    Learn more about building out your app in{" "}
-                    <Link
-                      url="https://shopify.dev/apps/getting-started/add-functionality"
-                      external
-                    >
-                      this Shopify tutorial
-                    </Link>{" "}
-                    📚{" "}
                   </p>
                 </TextContainer>
               </Stack.Item>
@@ -76,9 +54,6 @@ export default function HomePage() {
               </Stack.Item>
             </Stack>
           </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <ProductsCard />
         </Layout.Section>
       </Layout>
     </Page>
