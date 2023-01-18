@@ -40,13 +40,13 @@ const PRODUCT_VARIANTS_DATA = [
 ];
 const PRODUCT_STAIRCASE_DATA = [
   {
-    id: "gid://shopify/ProductVariant/40669575118963",
+    id: "gid://shopify/ProductVariant/40671397412979",
     img: "https://via.placeholder.com/100/F1F1F1?text=S1",
     title: "Non-Wardrobe Item",
     price: 10.0,
   },
   {
-    id: "gid://shopify/ProductVariant/40669571940467",
+    id: "gid://shopify/ProductVariant/40671397281907",
     img: "https://via.placeholder.com/100/F1F1F1?text=S1",
     title: "Wardrobe Item",
     price: 20.0,
@@ -280,7 +280,6 @@ extend(
             quantity: wardrobeItems * staircaseFloor,
           });
 
-          console.log(result)
           addButtonComponentStair.updateProps({ loading: false });
 
           if (result.type === "error") {
