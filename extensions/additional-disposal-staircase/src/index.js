@@ -22,16 +22,16 @@ import {
 
 const PRODUCT_VARIANTS_DATA = [
   {
-    id: "gid://shopify/ProductVariant/40669571743859",
-    img: "https://via.placeholder.com/100/F1F1F1?text=L1",
+    id: "gid://shopify/ProductVariant/40704560496755",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
     title: "Large Item Disposal",
     description:
       "Sofa, Bedframe, Mattress, Dining Table, Study Desk, 4-6 Chairs, Tv Console, Sideboard, Shelves & Cabinet",
     price: 50.0,
   },
   {
-    id: "gid://shopify/ProductVariant/40669571776627",
-    img: "https://via.placeholder.com/100/F1F1F1?text=M1",
+    id: "gid://shopify/ProductVariant/40704561774707",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
     title: "Medium Item Disposal",
     description:
       "Dining Chair, Bench, Stool/Barstool, Bean Bag, Lounge/Arm Chair, Office Chair, Coffee Table, Side Table, Bedside Table",
@@ -319,7 +319,7 @@ extend(
     const disposalComponent = root.createComponent(BlockStack, { spacing: "loose" }, [
     // Create the Additional Delivery Options component
         root.createComponent(BlockStack, {}, [
-          "Do you need furiniture disposal?",
+          "Do you need furniture disposal?",
           root.createComponent(
             ChoiceList,
             {
