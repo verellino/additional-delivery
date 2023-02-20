@@ -68,6 +68,8 @@ extend(
     let staircaseFee = false;
     let staircaseFloor = 0;
     let wardrobeItems = 0;
+    let disposalLQty = 0;
+    let disposalMQty = 0;
     let nonwardrobeItems = 0;
     let electronicItems = 0;
     let totalStaircaseFee = 0;
@@ -180,84 +182,138 @@ extend(
 
     // Defines the "Add" Button component used in the app
     const addButtonComponent = root.createComponent(
-      Button,
-      {
-        kind: "secondary",
-        loading: false,
-        inlineSize: "fill",
-        onPress: async () => {
-          addButtonComponent.updateProps({ loading: true });
+      BlockStack,
+      { inlineSize: "fill", padding: "none" },
+      [
+        root.createComponent(Stepper, {
+          label: "Quantity",
+          value: 0,
+          onChange: (value) => {
+            disposalLQty = value;
+            renderApp();
+          },
+        }),
+        root.createComponent(
+          Button,
+          {
+            kind: "secondary",
+            loading: false,
+            inlineSize: "fill",
+            onPress: async () => {
+              // addButtonComponent.updateProps({ loading: true });
+              // Apply the cart lines change
+              const result = await applyCartLinesChange({
+                type: "addCartLine",
+                merchandiseId: merchandise.id,
+                quantity: disposalLQty,
+              });
 
-          // Apply the cart lines change
-          const result = await applyCartLinesChange({
-            type: "addCartLine",
-            merchandiseId: merchandise.id,
-            quantity: 1,
-          });
+              // addButtonComponent.updateProps({ loading: false });
 
-          addButtonComponent.updateProps({ loading: false });
-
-          if (result.type === "error") {
-            // An error occurred adding the cart line
-            // Verify that you're using a valid product variant ID
-            // For example, 'gid://shopify/ProductVariant/123'
-            console.error(result.message);
-            const errorComponent = root.createComponent(
-              Banner,
-              { status: "critical" },
-              ["There was an issue adding this product. Please try again."]
-            );
-            // Render an error Banner as a child of the top-level app component for three seconds, then remove it
-            const topLevelComponent = root.children[0];
-            topLevelComponent.appendChild(errorComponent);
-            setTimeout(
-              () => topLevelComponent.removeChild(errorComponent),
-              3000
-            );
-          }
-        },
-      },
-      ["Add"]
-    );
+              if (result.type === "error") {
+                // An error occurred adding the cart line
+                // Verify that you're using a valid product variant ID
+                // For example, 'gid://shopify/ProductVariant/123'
+                console.error(result.message);
+                const errorComponent = root.createComponent(
+                  Banner,
+                  { status: "critical" },
+                  ["There was an issue adding this product. Please try again."]
+                );
+                // Render an error Banner as a child of the top-level app component for three seconds, then remove it
+                const topLevelComponent = root.children[0];
+                topLevelComponent.appendChild(errorComponent);
+                setTimeout(
+                  () => topLevelComponent.removeChild(errorComponent),
+                  3000
+                );
+              } else if (result.type === "success") {
+                console.error(result.message);
+                const successComponent = root.createComponent(
+                  Banner,
+                  { status: "success" },
+                  ["Successfully added item to cart!"]
+                );
+                // Render an error Banner as a child of the top-level app component for three seconds, then remove it
+                const topLevelComponent = root.children[0];
+                topLevelComponent.appendChild(successComponent);
+                setTimeout(
+                  () => topLevelComponent.removeChild(successComponent),
+                  3000
+                );
+              }
+            },
+          },
+          ["Add"]
+        )
+    ]);
     const addButtonComponentMediumDisposal = root.createComponent(
-      Button,
-      {
-        kind: "secondary",
-        loading: false,
-        inlineSize: 'fill',
-        onPress: async () => {
-          addButtonComponentMediumDisposal.updateProps({ loading: true });
+      BlockStack,
+      { inlineSize: "fill", padding: "none" },
+      [
+        root.createComponent(Stepper, {
+          label: "Quantity",
+          value: 0,
+          onChange: (value) => {
+            disposalMQty = value;
+            renderApp();
+          },
+        }),
+        root.createComponent(
+          Button,
+          {
+            kind: "secondary",
+            loading: false,
+            inlineSize: "fill",
+            onPress: async () => {
+              // addButtonComponentMediumDisposal.updateProps({ loading: true });
 
-          // Apply the cart lines change
-          const result = await applyCartLinesChange({
-            type: "addCartLine",
-            merchandiseId: merchandiseMD.id,
-            quantity: 1,
-          });
+              // Apply the cart lines change
+              const result = await applyCartLinesChange({
+                type: "addCartLine",
+                merchandiseId: merchandiseMD.id,
+                quantity: disposalMQty,
+              });
 
-          addButtonComponentMediumDisposal.updateProps({ loading: false });
+              // addButtonComponentMediumDisposal.updateProps({ loading: false });
 
-          if (result.type === "error") {
-            // An error occurred adding the cart line
-            // Verify that you're using a valid product variant ID
-            // For example, 'gid://shopify/ProductVariant/123'
-            console.error(result.message);
-            const errorComponent = root.createComponent(
-              Banner,
-              { status: "critical" },
-              ["There was an issue adding this product. Please try again."]
-            );
-            // Render an error Banner as a child of the top-level app component for three seconds, then remove it
-            const topLevelComponent = root.children[0];
-            topLevelComponent.appendChild(errorComponent);
-            setTimeout(
-              () => topLevelComponent.removeChild(errorComponent),
-              3000
-            );
-          }
-        },
-      },
-      ["Add"]
+              if (result.type === "error") {
+                // An error occurred adding the cart line
+                // Verify that you're using a valid product variant ID
+                // For example, 'gid://shopify/ProductVariant/123'
+                console.error(result.message);
+                const errorComponent = root.createComponent(
+                  Banner,
+                  { status: "critical" },
+                  ["There was an issue adding this product. Please try again."]
+                );
+                // Render an error Banner as a child of the top-level app component for three seconds, then remove it
+                const topLevelComponent = root.children[0];
+                topLevelComponent.appendChild(errorComponent);
+                setTimeout(
+                  () => topLevelComponent.removeChild(errorComponent),
+                  3000
+                );
+              } else if (result.type === "success") {
+                console.error(result.message);
+                const successComponent = root.createComponent(
+                  Banner,
+                  { status: "success" },
+                  ["Successfully added item to cart!"]
+                );
+                // Render an error Banner as a child of the top-level app component for three seconds, then remove it
+                const topLevelComponent = root.children[0];
+                topLevelComponent.appendChild(successComponent);
+                setTimeout(
+                  () => topLevelComponent.removeChild(successComponent),
+                  3000
+                );
+              }
+            },
+          },
+          ["Add"]
+        ),
+      ]
     );
     const addButtonComponentStair = root.createComponent(
       Button,
