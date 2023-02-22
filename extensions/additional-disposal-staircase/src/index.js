@@ -153,6 +153,7 @@ extend(
     const priceMarkup = root.createText("");
     const itemDescription = root.createText("");
     const merchandise = { id: "" };
+    
     const imageMediumComponent = root.createComponent(Image, {
       border: "base",
       borderWidth: "base",
@@ -164,6 +165,7 @@ extend(
     const priceMediumMarkup = root.createText("");
     const itemMediumDescription = root.createText("");
     const merchandiseMD = { id: "" };
+
     const imageStaircaseComponent = root.createComponent(Image, {
       border: "base",
       borderWidth: "base",
@@ -200,7 +202,7 @@ extend(
             loading: false,
             inlineSize: "fill",
             onPress: async () => {
-              // addButtonComponent.updateProps({ loading: true });
+              addButtonComponent.updateProps({ loading: true });
               // Apply the cart lines change
               const result = await applyCartLinesChange({
                 type: "addCartLine",
@@ -208,13 +210,13 @@ extend(
                 quantity: disposalLQty,
               });
 
-              // addButtonComponent.updateProps({ loading: false });
+              addButtonComponent.updateProps({ loading: false });
 
               if (result.type === "error") {
                 // An error occurred adding the cart line
                 // Verify that you're using a valid product variant ID
                 // For example, 'gid://shopify/ProductVariant/123'
-                console.error(result.message);
+                // console.error(result.message);
                 const errorComponent = root.createComponent(
                   Banner,
                   { status: "critical" },
@@ -668,19 +670,19 @@ extend(
       // Choose the first available product variant on offer or display the default fallback product
       const { id, img, title, description, price } = productsOnOffer[0] || products[0];
       // Localize the currency for international merchants and customers
-      const renderPrice = i18n.formatCurrency(price);
+      const renderPrice = i18n.formatCurrency(products[0].price);
       const renderPriceMedium = i18n.formatCurrency(products[1].price);
       const renderPriceStaircase = i18n.formatCurrency(productsStaircase[0].price);
 
       // Bind data to the components
-      imageComponent.updateProps({ source: img });
-      titleMarkup.updateText(title);
-      itemDescription.updateText(description);
+      imageComponent.updateProps({ source: products[0].img });
+      titleMarkup.updateText(products[0].title);
+      itemDescription.updateText(products[0].description);
       addButtonComponent.updateProps({
-        accessibilityLabel: `Add ${title} to cart`,
+        accessibilityLabel: `Add ${products[0].title} to cart`,
       });
       priceMarkup.updateText(renderPrice);
-      merchandise.id = id;
+      merchandise.id = products[0].id;
 
       imageMediumComponent.updateProps({ source: products[1].img });
       titleMediumMarkup.updateText(products[1].title);
@@ -708,8 +710,7 @@ extend(
       const renderNonwardrobeCharge = i18n.formatCurrency(nonwardrobeCharge);
       let electronicCharge = 2 * electronicItems * staircaseFloor * productsStaircase[0].price;
       let electronicFee = 2 * electronicItems * staircaseFloor;
-      const renderElectronicCharge =
-        i18n.formatCurrency(electronicCharge);
+      const renderElectronicCharge = i18n.formatCurrency(electronicCharge);
       let staircaseCharge = wardrobeCharge + nonwardrobeCharge;
       const renderStaircaseCharge = i18n.formatCurrency(staircaseCharge);
       wardrobePrice.updateText(renderWardrobeCharge);
