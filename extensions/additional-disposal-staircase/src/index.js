@@ -14,6 +14,7 @@ import {
   Banner,
   Heading,
   Button,
+  Select,
   SkeletonImage,
   SkeletonText,
   Stepper,
@@ -63,6 +64,7 @@ extend(
     let loading = true;
     let appRendered = false;
     let disposalValue= "";
+    let disposalItemValue= "";
     let furnitureDisposal= false;
     let stairValue = "";
     let staircaseFee = false;
@@ -205,7 +207,7 @@ extend(
               addButtonComponent.updateProps({ loading: true });
               // Apply the cart lines change
               const result = await applyCartLinesChange({
-                type: "addCartLine",
+                type: "addCartLine", 
                 merchandiseId: merchandise.id,
                 quantity: disposalLQty,
               });
@@ -224,10 +226,10 @@ extend(
                 );
                 // Render an error Banner as a child of the top-level app component for three seconds, then remove it
                 const topLevelComponent = root.children[0];
-                topLevelComponent.appendChild(errorComponent);
+                disposalComponent.appendChild(errorComponent);
                 setTimeout(
-                  () => topLevelComponent.removeChild(errorComponent),
-                  3000
+                  () => disposalComponent.removeChild(errorComponent),
+                  5000
                 );
               } else if (result.type === "success") {
                 console.error(result.message);
@@ -236,12 +238,11 @@ extend(
                   { status: "success" },
                   ["Successfully added item to cart!"]
                 );
-                // Render an error Banner as a child of the top-level app component for three seconds, then remove it
-                const topLevelComponent = root.children[0];
-                topLevelComponent.appendChild(successComponent);
+                // Render an error Banner as a child of the top-level app component for three seconds, then remove it\
+                disposalComponent.appendChild(successComponent);
                 setTimeout(
-                  () => topLevelComponent.removeChild(successComponent),
-                  3000
+                  () => disposalComponent.removeChild(successComponent),
+                  5000
                 );
               }
             },
@@ -291,10 +292,10 @@ extend(
                 );
                 // Render an error Banner as a child of the top-level app component for three seconds, then remove it
                 const topLevelComponent = root.children[0];
-                topLevelComponent.appendChild(errorComponent);
+                disposalComponent.appendChild(errorComponent);
                 setTimeout(
-                  () => topLevelComponent.removeChild(errorComponent),
-                  3000
+                  () => disposalComponent.removeChild(errorComponent),
+                  5000
                 );
               } else if (result.type === "success") {
                 console.error(result.message);
@@ -303,12 +304,10 @@ extend(
                   { status: "success" },
                   ["Successfully added item to cart!"]
                 );
-                // Render an error Banner as a child of the top-level app component for three seconds, then remove it
-                const topLevelComponent = root.children[0];
-                topLevelComponent.appendChild(successComponent);
+                disposalComponent.appendChild(successComponent);
                 setTimeout(
-                  () => topLevelComponent.removeChild(successComponent),
-                  3000
+                  () => disposalComponent.removeChild(successComponent),
+                  5000
                 );
               }
             },
@@ -373,7 +372,30 @@ extend(
       },
       ["Add"]
     );
-
+    const selectDisposal = root.createComponent(Select, {
+      label: "Disposal Item Size",
+      value: disposalItemValue,
+      options: [
+        {
+          value: "1",
+          label: "Large Item",
+        },
+        {
+          value: "2",
+          label: "Medium Item",
+        },
+      ],
+      onChange: (value) => {
+        disposalItemValue = value;
+        if (value === "1") {
+          disposalChoice.appendChild(addDisposal);
+          // disposalChoice.removeChild(addDisposalMedium);
+        } else if (value === "2") {
+          disposalChoice.appendChild(addDisposalMedium);
+          // disposalChoice.removeChild(addDisposal);
+        }
+      },
+    });
     const disposalComponent = root.createComponent(BlockStack, { spacing: "loose" }, [
     // Create the Additional Delivery Options component
         root.createComponent(BlockStack, {}, [
@@ -389,7 +411,7 @@ extend(
                   furnitureDisposal = true;
                 } else {
                   furnitureDisposal = false;
-                  disposalComponent.removeChild(disposalBlock); 
+                  disposalComponent.removeChild(disposalChoice); 
                 }
                 renderApp();
               },
@@ -419,6 +441,7 @@ extend(
       BlockStack,
       {
         spacing: "base",
+        maxInlineSize: 200,
       },
       [
         root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
@@ -454,6 +477,22 @@ extend(
         ),
       ]
     );
+    function largeDis() {
+      {
+        if (disposalItemValue === "large-disposal") {
+          disposalValue = true;
+          if (disposalStack.children[0]) {
+            disposalStack.removeChild(disposalStack.children[0]);
+          }
+          disposalStack.appendChild(addDisposal);
+        } else if (disposalItemValue === "medium-disposal") {
+          if (disposalStack.children[0]) {
+            disposalStack.removeChild(disposalStack.children[0]);
+          }
+          disposalStack.appendChild(addDisposalMedium);
+        }
+      }
+    };
     function showDesc() {
       {
         itemDesc = !itemDesc;
@@ -481,6 +520,7 @@ extend(
       BlockStack,
       {
         spacing: "base",
+        maxInlineSize: 200,
       },
       [
         root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
@@ -492,6 +532,31 @@ extend(
         ]),
       ]
     );
+    const disposalStack = root.createComponent(BlockStack, undefined, [])
+    const disposalChoice = root.createComponent(BlockStack, undefined, [
+      root.createComponent(
+        ChoiceList,
+        {
+          name: "disposal-choice",
+          value: disposalItemValue,
+          onChange: (value) => {
+            disposalItemValue = value;
+            largeDis();
+            renderApp();
+          },
+        },
+        [
+          root.createComponent(BlockStack, undefined, [
+            "What size are your items?",
+            root.createComponent(InlineStack, undefined, [
+            root.createComponent(Choice, { id: "large-disposal" }, "Large Item"),
+            root.createComponent(Choice, { id: "medium-disposal" }, "Medium Item"),
+            ])]),
+          disposalStack
+        ]
+      ),
+      // selectDisposal
+    ]);
     const disposalBlock = root.createComponent(
       InlineLayout,
       {
@@ -720,7 +785,7 @@ extend(
       totalStaircaseFee = wardrobeFee + nonwardrobeFee
       
       if (furnitureDisposal) {
-        disposalComponent.appendChild(disposalBlock);
+        disposalComponent.appendChild(disposalChoice);
       }
       if (staircaseFee) {
         staircaseComponent.appendChild(staircaseBlock);
