@@ -39,6 +39,152 @@ const PRODUCT_VARIANTS_DATA = [
     price: 20.0,
   },
 ];
+const LARGE_DISPOSAL = [
+  {
+    id: "gid://shopify/ProductVariant/40704560496755",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Large Item Disposal",
+    description:
+      "Sofa, Bedframe, Mattress, Dining Table, Study Desk, 4-6 Chairs, Tv Console, Sideboard, Shelves & Cabinet",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135163507",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Sofa",
+    description: "Large Item Disposal - Sofa",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135196275",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Bedframe",
+    description: "Large Item Disposal - Bedframe",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135229043",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Mattress",
+    description: "Large Item Disposal - Mattress",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135261811",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Dining Table",
+    description: "Large Item Disposal - Dining Table",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135294579",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Study Desk",
+    description: "Large Item Disposal - Study Desk",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135327347",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "4-6 Chairs",
+    description: "Large Item Disposal - 4-6 Chairs",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135360115",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Tv Console",
+    description: "Large Item Disposal - Tv Console",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135392883",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Sideboard",
+    description: "Large Item Disposal - Sideboard",
+    price: 50.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085135425651",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
+    title: "Shelves & Cabinet",
+    description: "Large Item Disposal - Shelves & Cabinet",
+    price: 50.0,
+  },
+];
+const MEDIUM_DISPOSAL = [
+  {
+    id: "gid://shopify/ProductVariant/40704561774707",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Medium Item Disposal",
+    description:
+      "Dining Chair, Bench, Stool/Barstool, Bean Bag, Lounge/Arm Chair, Office Chair, Coffee Table, Side Table, Bedside Table",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085139947635",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Dining Chair",
+    description: "Medium Item Disposal - Dining Chair",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085139980403",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Bench",
+    description: "Medium Item Disposal - Bench",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085140013171",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Stool/Barstool",
+    description: "Medium Item Disposal - Stool/Barstool",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085140045939",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Bean Bag",
+    description: "Medium Item Disposal - Bean Bag",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085140078707",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Lounge/Arm Chair",
+    description: "Medium Item Disposal - Lounge/Arm Chair",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085140111475",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Office Chair",
+    description: "Medium Item Disposal - Office Chair",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085140144243",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Coffee Table",
+    description: "Medium Item Disposal - Coffee Table",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085140177011",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Side Table",
+    description: "Medium Item Disposal - Side Table",
+    price: 20.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/32085140209779",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/medium-item-disposal-service-disposal-1_720x.jpg?v=1657014415",
+    title: "Bedside Table",
+    description: "Medium Item Disposal - Bedside Table",
+    price: 20.0,
+  },
+];
 const PRODUCT_STAIRCASE_DATA = [
   {
     id: "gid://shopify/ProductVariant/40671397412979",
@@ -77,6 +223,8 @@ extend(
     let totalStaircaseFee = 0;
     let itemDesc = false;
     let itemMediumDesc = false;
+    let largeMerchandiseID = null;
+    let mediumMerchandiseID = null;
     let state = {
       metafields: metafields.current,
       showDeliveryInstructions: false,
@@ -141,7 +289,8 @@ extend(
     if (loading) {
       root.appendChild(loadingState);
     }
-
+    const largeDisposals = LARGE_DISPOSAL;
+    const mediumDisposals = MEDIUM_DISPOSAL;
     // Initialize the components to render for the product offer
     // You'll need to manually bind data to them, this happens within the `renderApp` helper
     const imageComponent = root.createComponent(Image, {
@@ -189,6 +338,51 @@ extend(
       BlockStack,
       { inlineSize: "fill", padding: "none" },
       [
+        root.createComponent(Select, {
+          label: "Large Item",
+          value: largeMerchandiseID,
+          options: [
+            {
+              value: largeDisposals[1].id,
+              label: "Sofa",
+            },
+            {
+              value: largeDisposals[2].id,
+              label: "Bedframe",
+            },
+            {
+              value: largeDisposals[3].id,
+              label: "Mattress",
+            },
+            {
+              value: largeDisposals[4].id,
+              label: "Dining Table",
+            },
+            {
+              value: largeDisposals[5].id,
+              label: "Study Desk",
+            },
+            {
+              value: largeDisposals[6].id,
+              label: "4-6 Chairs",
+            },
+            {
+              value: largeDisposals[7].id,
+              label: "Tv Console",
+            },
+            {
+              value: largeDisposals[8].id,
+              label: "Sideboard",
+            },
+            {
+              value: largeDisposals[9].id,
+              label: "Shelves & Cabinet",
+            },
+          ],
+          onChange: (value) => {
+            largeMerchandiseID = value;
+          },
+        }),
         root.createComponent(Stepper, {
           label: "Quantity",
           value: 0,
@@ -207,8 +401,8 @@ extend(
               addButtonComponent.updateProps({ loading: true });
               // Apply the cart lines change
               const result = await applyCartLinesChange({
-                type: "addCartLine", 
-                merchandiseId: merchandise.id,
+                type: "addCartLine",
+                merchandiseId: largeMerchandiseID,
                 quantity: disposalLQty,
               });
 
@@ -248,12 +442,58 @@ extend(
             },
           },
           ["Add"]
-        )
-    ]);
+        ),
+      ]
+    );
     const addButtonComponentMediumDisposal = root.createComponent(
       BlockStack,
       { inlineSize: "fill", padding: "none" },
       [
+        root.createComponent(Select, {
+          label: "Medium Item",
+          value: largeMerchandiseID,
+          options: [
+            {
+              value: mediumDisposals[1].id,
+              label: "Dining Chair",
+            },
+            {
+              value: mediumDisposals[2].id,
+              label: "Bench",
+            },
+            {
+              value: mediumDisposals[3].id,
+              label: "Stool/Barstool",
+            },
+            {
+              value: mediumDisposals[4].id,
+              label: "Bean Bag",
+            },
+            {
+              value: mediumDisposals[5].id,
+              label: "Lounge/Arm Chair",
+            },
+            {
+              value: mediumDisposals[6].id,
+              label: "Office Chair",
+            },
+            {
+              value: mediumDisposals[7].id,
+              label: "Coffee Table",
+            },
+            {
+              value: mediumDisposals[8].id,
+              label: "Side Table",
+            },
+            {
+              value: mediumDisposals[9].id,
+              label: "Bedside Table",
+            },
+          ],
+          onChange: (value) => {
+            mediumMerchandiseID = value;
+          },
+        }),
         root.createComponent(Stepper, {
           label: "Quantity",
           value: 0,
@@ -274,7 +514,7 @@ extend(
               // Apply the cart lines change
               const result = await applyCartLinesChange({
                 type: "addCartLine",
-                merchandiseId: merchandiseMD.id,
+                merchandiseId: mediumMerchandiseID,
                 quantity: disposalMQty,
               });
 
@@ -722,7 +962,15 @@ extend(
         root.removeChild(loadingState);
         return;
       }
-
+      
+      const largeProducts = largeDisposals.filter(
+        (product) =>
+          !lines.current.map((item) => item.merchandise.id).includes(product.id)
+      );
+      const mediumProducts = largeDisposals.filter(
+        (product) =>
+          !lines.current.map((item) => item.merchandise.id).includes(product.id)
+      );
       // Filter out any product variants on offer that are already current cart lines
       const productsOnOffer = products.filter(
         (product) =>
