@@ -23,6 +23,13 @@ import {
 
 const PRODUCT_VARIANTS_DATA = [
   {
+    id: "gid://shopify/ProductVariant/40746883547251",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    title: "Extra Large Item Disposal",
+    description: "Bunk Bed, L Shape Sofa",
+    price: 100.0,
+  },
+  {
     id: "gid://shopify/ProductVariant/40704560496755",
     img: "https://cdn.shopify.com/s/files/1/1805/8667/products/large-item-disposal-service-disposal-1_720x.jpg?v=1657013689",
     title: "Large Item Disposal",
@@ -185,6 +192,29 @@ const MEDIUM_DISPOSAL = [
     price: 20.0,
   },
 ];
+const XL_DISPOSAL = [
+  {
+    id: "gid://shopify/ProductVariant/40746883547251",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    title: "Extra Large Item Disposal",
+    description: "Bunk Bed, L Shape Sofa",
+    price: 100.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/40746883285107",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    title: "Bunk Bed",
+    description: "Extra Large Item Disposal - Bunk Bed",
+    price: 100.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/40746883514483",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    title: "L Shape Sofa",
+    description: "Extra Large Item Disposal - L Shape Sofa",
+    price: 100.0,
+  },
+];
 const PRODUCT_STAIRCASE_DATA = [
   {
     id: "gid://shopify/ProductVariant/40671397412979",
@@ -209,22 +239,24 @@ extend(
     let productsStaircase = PRODUCT_STAIRCASE_DATA;
     let loading = true;
     let appRendered = false;
-    let disposalValue= "";
-    let disposalItemValue= "";
-    let furnitureDisposal= false;
+    let disposalValue = "";
+    let disposalItemValue = "";
+    let furnitureDisposal = false;
     let stairValue = "";
     let staircaseFee = false;
     let staircaseFloor = 0;
     let wardrobeItems = 0;
     let disposalLQty = 0;
     let disposalMQty = 0;
+    let disposalXLQty = 0;
     let nonwardrobeItems = 0;
-    let electronicItems = 0;
     let totalStaircaseFee = 0;
     let itemDesc = false;
     let itemMediumDesc = false;
+    let itemXLDesc = false;
     let largeMerchandiseID = null;
     let mediumMerchandiseID = null;
+    let xlMerchandiseID = null;
     let state = {
       metafields: metafields.current,
       showDeliveryInstructions: false,
@@ -259,7 +291,9 @@ extend(
       { spacing: "loose" },
       [
         root.createComponent(Divider),
-        root.createComponent(Heading, { level: 2 }, ["Additional Delivery options"]),
+        root.createComponent(Heading, { level: 2 }, [
+          "Additional Delivery options",
+        ]),
         root.createComponent(BlockStack, { spacing: "loose" }, [
           root.createComponent(
             InlineLayout,
@@ -291,6 +325,7 @@ extend(
     }
     const largeDisposals = LARGE_DISPOSAL;
     const mediumDisposals = MEDIUM_DISPOSAL;
+    const xlDisposals = XL_DISPOSAL;
     // Initialize the components to render for the product offer
     // You'll need to manually bind data to them, this happens within the `renderApp` helper
     const imageComponent = root.createComponent(Image, {
@@ -304,7 +339,7 @@ extend(
     const priceMarkup = root.createText("");
     const itemDescription = root.createText("");
     const merchandise = { id: "" };
-    
+
     const imageMediumComponent = root.createComponent(Image, {
       border: "base",
       borderWidth: "base",
@@ -316,6 +351,18 @@ extend(
     const priceMediumMarkup = root.createText("");
     const itemMediumDescription = root.createText("");
     const merchandiseMD = { id: "" };
+
+    const titleXLMarkup = root.createText("");
+    const priceXLMarkup = root.createText("");
+    const itemXLDescription = root.createText("");
+    const merchandiseXL = { id: "" };
+    const imageXLComponent = root.createComponent(Image, {
+      border: "base",
+      borderWidth: "base",
+      borderRadius: "loose",
+      aspectRatio: 1,
+      source: "",
+    });
 
     const imageStaircaseComponent = root.createComponent(Image, {
       border: "base",
@@ -331,7 +378,6 @@ extend(
     const staircasePrice = root.createText("");
     const wardrobePrice = root.createText("");
     const nonwardrobePrice = root.createText("");
-    const electronicPrice = root.createText("");
 
     // Defines the "Add" Button component used in the app
     const addButtonComponent = root.createComponent(
@@ -451,7 +497,7 @@ extend(
       [
         root.createComponent(Select, {
           label: "Medium Item",
-          value: largeMerchandiseID,
+          value: mediumMerchandiseID,
           options: [
             {
               value: mediumDisposals[1].id,
@@ -556,6 +602,89 @@ extend(
         ),
       ]
     );
+    const addButtonComponentXLDisposal = root.createComponent(
+      BlockStack,
+      { inlineSize: "fill", padding: "none" },
+      [
+        root.createComponent(Select, {
+          label: "Medium Item",
+          value: xlMerchandiseID,
+          options: [
+            {
+              value: xlDisposals[1].id,
+              label: "Bunk Bed",
+            },
+            {
+              value: xlDisposals[2].id,
+              label: "L Shape Sofa",
+            },
+          ],
+          onChange: (value) => {
+            xlMerchandiseID = value;
+          },
+        }),
+        root.createComponent(Stepper, {
+          label: "Quantity",
+          value: 0,
+          onChange: (value) => {
+            disposalXLQty = value;
+            renderApp();
+          },
+        }),
+        root.createComponent(
+          Button,
+          {
+            kind: "secondary",
+            loading: false,
+            inlineSize: "fill",
+            onPress: async () => {
+              // addButtonComponentMediumDisposal.updateProps({ loading: true });
+
+              // Apply the cart lines change
+              const result = await applyCartLinesChange({
+                type: "addCartLine",
+                merchandiseId: xlMerchandiseID,
+                quantity: disposalXLQty,
+              });
+
+              // addButtonComponentMediumDisposal.updateProps({ loading: false });
+
+              if (result.type === "error") {
+                // An error occurred adding the cart line
+                // Verify that you're using a valid product variant ID
+                // For example, 'gid://shopify/ProductVariant/123'
+                console.error(result.message);
+                const errorComponent = root.createComponent(
+                  Banner,
+                  { status: "critical" },
+                  ["There was an issue adding this product. Please try again."]
+                );
+                // Render an error Banner as a child of the top-level app component for three seconds, then remove it
+                const topLevelComponent = root.children[0];
+                disposalComponent.appendChild(errorComponent);
+                setTimeout(
+                  () => disposalComponent.removeChild(errorComponent),
+                  5000
+                );
+              } else if (result.type === "success") {
+                console.error(result.message);
+                const successComponent = root.createComponent(
+                  Banner,
+                  { status: "success" },
+                  ["Successfully added item to cart!"]
+                );
+                disposalComponent.appendChild(successComponent);
+                setTimeout(
+                  () => disposalComponent.removeChild(successComponent),
+                  5000
+                );
+              }
+            },
+          },
+          ["Add"]
+        ),
+      ]
+    );
     const addButtonComponentStair = root.createComponent(
       Button,
       {
@@ -612,32 +741,11 @@ extend(
       },
       ["Add"]
     );
-    const selectDisposal = root.createComponent(Select, {
-      label: "Disposal Item Size",
-      value: disposalItemValue,
-      options: [
-        {
-          value: "1",
-          label: "Large Item",
-        },
-        {
-          value: "2",
-          label: "Medium Item",
-        },
-      ],
-      onChange: (value) => {
-        disposalItemValue = value;
-        if (value === "1") {
-          disposalChoice.appendChild(addDisposal);
-          // disposalChoice.removeChild(addDisposalMedium);
-        } else if (value === "2") {
-          disposalChoice.appendChild(addDisposalMedium);
-          // disposalChoice.removeChild(addDisposal);
-        }
-      },
-    });
-    const disposalComponent = root.createComponent(BlockStack, { spacing: "loose" }, [
-    // Create the Additional Delivery Options component
+    const disposalComponent = root.createComponent(
+      BlockStack,
+      { spacing: "loose" },
+      [
+        // Create the Additional Delivery Options component
         root.createComponent(BlockStack, {}, [
           "Do you need furniture disposal?",
           root.createComponent(
@@ -647,12 +755,7 @@ extend(
               value: disposalValue,
               onChange: (value) => {
                 disposalValue = value;
-                if (value === "yes-disposal") {
-                  furnitureDisposal = true;
-                } else {
-                  furnitureDisposal = false;
-                  disposalComponent.removeChild(disposalChoice); 
-                }
+                disChoice();
                 renderApp();
               },
             },
@@ -663,20 +766,57 @@ extend(
               ]),
             ]
           ),
-        ])
-    ])
+        ]),
+      ]
+    );
     const itemText = root.createComponent(BlockStack, { spacing: "none" }, [
       root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
         titleMarkup,
       ]),
       root.createComponent(Text, { appearance: "subdued" }, [priceMarkup]),
-      root.createComponent(Button, {
-        kind: 'plain',
-        inlineAlignment: 'start',
-        appearance: 'monochrome',
-        onPress: () => showDesc()
-      }, "Description")
-    ])
+      root.createComponent(
+        Button,
+        {
+          kind: "plain",
+          inlineAlignment: "start",
+          appearance: "monochrome",
+          onPress: () => showDesc(),
+        },
+        "Description"
+      ),
+    ]);
+    const itemXLText = root.createComponent(BlockStack, { spacing: "none" }, [
+      root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
+        titleXLMarkup,
+      ]),
+      root.createComponent(Text, { appearance: "subdued" }, [priceXLMarkup]),
+      root.createComponent(
+        Button,
+        {
+          kind: "plain",
+          inlineAlignment: "start",
+          appearance: "monochrome",
+          onPress: () => showXLDesc(),
+        },
+        "Description"
+      ),
+    ]);
+    const addXLDisposal = root.createComponent(
+      BlockStack,
+      {
+        spacing: "base",
+        maxInlineSize: 200,
+      },
+      [
+        root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
+          imageXLComponent,
+          itemXLText,
+        ]),
+        root.createComponent(View, { inlineSize: "fill", padding: "none" }, [
+          addButtonComponentXLDisposal,
+        ]),
+      ]
+    );
     const addDisposal = root.createComponent(
       BlockStack,
       {
@@ -696,7 +836,7 @@ extend(
     const itemMediumText = root.createComponent(
       BlockStack,
       {
-        spacing: "none"
+        spacing: "none",
       },
       [
         root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
@@ -711,51 +851,95 @@ extend(
             kind: "plain",
             inlineAlignment: "start",
             appearance: "monochrome",
-            onPress: () => showMediumDesc()
+            onPress: () => showMediumDesc(),
           },
           "Description"
         ),
       ]
     );
+    function disChoice() {
+      {
+        if (disposalValue === "yes-disposal") {
+          disposalComponent.appendChild(disposalChoice);
+        } else {
+          if (disposalComponent.children[1]) {
+            disposalComponent.removeChild(disposalComponent.children[1]);
+            disposalItemValue = null;
+          }
+        }
+      }
+    }
+    function stairChoice() {
+      {
+        if (stairValue === "yes-staircase") {
+          staircaseComponent.appendChild(staircaseBlock);
+        } else {
+          if (staircaseComponent.children[1]) {
+            staircaseComponent.removeChild(staircaseComponent.children[1]);
+          }
+        }
+      }
+    }
     function largeDis() {
       {
-        if (disposalItemValue === "large-disposal") {
-          disposalValue = true;
-          if (disposalStack.children[0]) {
-            disposalStack.removeChild(disposalStack.children[0]);
-          }
+        if (disposalStack.children[0]) {
+          disposalStack.removeChild(disposalStack.children[0]);
+        }
+        if (disposalItemValue === "xl-disposal") {
+          disposalStack.appendChild(addXLDisposal);
+        } else if (disposalItemValue === "large-disposal") {
           disposalStack.appendChild(addDisposal);
         } else if (disposalItemValue === "medium-disposal") {
-          if (disposalStack.children[0]) {
-            disposalStack.removeChild(disposalStack.children[0]);
-          }
           disposalStack.appendChild(addDisposalMedium);
         }
       }
-    };
+    }
     function showDesc() {
       {
         itemDesc = !itemDesc;
-        const itemDescBlock = root.createComponent(Text, { size: "small", padding: 'base' }, [itemDescription])
+        const itemDescBlock = root.createComponent(
+          Text,
+          { size: "small", padding: "base" },
+          [itemDescription]
+        );
         if (itemDesc) {
           itemText.appendChild(itemDescBlock);
         } else {
           itemText.removeChild(itemDescBlock);
         }
       }
-    };
+    }
+    function showXLDesc() {
+      {
+        itemXLDesc = !itemXLDesc;
+        const itemXLDescBlock = root.createComponent(
+          Text,
+          { size: "small", padding: "base" },
+          [itemXLDescription]
+        );
+        if (itemXLDesc) {
+          itemXLText.appendChild(itemXLDescBlock);
+        } else {
+          itemXLText.removeChild(itemXLDescBlock);
+        }
+      }
+    }
 
     function showMediumDesc() {
       {
         itemMediumDesc = !itemMediumDesc;
-        const mediumDescBlock = root.createComponent(Text, { size: "small", padding: 'base' }, [itemDescription])
+        const mediumDescBlock = root.createComponent(
+          Text,
+          { size: "small", padding: "base" },
+          [itemDescription]
+        );
         if (itemMediumDesc) {
           itemMediumText.appendChild(mediumDescBlock);
         } else {
           itemMediumText.removeChild(mediumDescBlock);
         }
       }
-    };
+    }
     const addDisposalMedium = root.createComponent(
       BlockStack,
       {
@@ -772,7 +956,7 @@ extend(
         ]),
       ]
     );
-    const disposalStack = root.createComponent(BlockStack, undefined, [])
+    const disposalStack = root.createComponent(BlockStack, undefined, []);
     const disposalChoice = root.createComponent(BlockStack, undefined, [
       root.createComponent(
         ChoiceList,
@@ -789,10 +973,24 @@ extend(
           root.createComponent(BlockStack, undefined, [
             "What size are your items?",
             root.createComponent(InlineStack, undefined, [
-            root.createComponent(Choice, { id: "large-disposal" }, "Large Item"),
-            root.createComponent(Choice, { id: "medium-disposal" }, "Medium Item"),
-            ])]),
-          disposalStack
+              root.createComponent(
+                Choice,
+                { id: "xl-disposal" },
+                "Extra Large Item"
+              ),
+              root.createComponent(
+                Choice,
+                { id: "large-disposal" },
+                "Large Item"
+              ),
+              root.createComponent(
+                Choice,
+                { id: "medium-disposal" },
+                "Medium Item"
+              ),
+            ]),
+          ]),
+          disposalStack,
         ]
       ),
       // selectDisposal
@@ -806,7 +1004,10 @@ extend(
       [addDisposal, addDisposalMedium]
     );
 
-    const staircaseComponent = root.createComponent(BlockStack,{ spacing: "loose" },[
+    const staircaseComponent = root.createComponent(
+      BlockStack,
+      { spacing: "loose" },
+      [
         // Staircase Components
         root.createComponent(BlockStack, {}, [
           "Does your furniture needs to be carried up via staircase?",
@@ -817,12 +1018,7 @@ extend(
               value: stairValue,
               onChange: (value) => {
                 stairValue = value;
-                if (value === "yes-staircase") {
-                  staircaseFee = true;
-                } else {
-                  staircaseFee = false;
-                  staircaseComponent.removeChild(staircaseBlock);
-                }
+                stairChoice();
                 renderApp();
               },
             },
@@ -833,65 +1029,54 @@ extend(
               ]),
             ]
           ),
-        ])
+        ]),
       ]
     );
-    const wardrobeInput = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
-      root.createComponent(
-        TextBlock,
-        undefined,
-        `Wardrobe Items:`
-      ),
-      root.createComponent(Stepper, {
-        label: 'Quantity',
-        value: 0,
-        onChange: (value) => {
-          wardrobeItems = value
-          renderApp();
-        }
-      })
-    ]);
-    const nonwardrobeInput = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
-      root.createComponent(
-        TextBlock,
-        undefined,
-        `Non-Wardrobe Items:`
-      ),
-      root.createComponent(Stepper, {
-        label: 'Quantity',
-        value: 0,
-        onChange: (value) => {
-          nonwardrobeItems = value
-          renderApp();
-        }
-      })
-    ]);
-    const electronicsInput = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
-      root.createComponent(
-        TextBlock,
-        undefined,
-        `Electronic Items:`
-      ),
-      root.createComponent(Stepper, {
-        label: 'Quantity',
-        value: 0,
-        onChange: (value) => {
-          electronicItems = value
-          renderApp();
-        }
-      })
-    ]);
-    const stepperFloor = root.createComponent(InlineLayout, {columns: ['30%', '30%']}, [
-      root.createComponent(TextBlock, undefined, `Amount of Floors:`),
-      root.createComponent(Stepper, {
-        label: "Floors",
-        value: 0,
-        onChange: (value) => {
-          staircaseFloor = value
-          renderApp();
-        }
-      }),
-    ]);
+    const wardrobeInput = root.createComponent(
+      InlineLayout,
+      { columns: ["30%", "30%"] },
+      [
+        root.createComponent(TextBlock, undefined, `Wardrobe Items:`),
+        root.createComponent(Stepper, {
+          label: "Quantity",
+          value: 0,
+          onChange: (value) => {
+            wardrobeItems = value;
+            renderApp();
+          },
+        }),
+      ]
+    );
+    const nonwardrobeInput = root.createComponent(
+      InlineLayout,
+      { columns: ["30%", "30%"] },
+      [
+        root.createComponent(TextBlock, undefined, `Non-Wardrobe Items:`),
+        root.createComponent(Stepper, {
+          label: "Quantity",
+          value: 0,
+          onChange: (value) => {
+            nonwardrobeItems = value;
+            renderApp();
+          },
+        }),
+      ]
+    );
+    const stepperFloor = root.createComponent(
+      InlineLayout,
+      { columns: ["30%", "30%"] },
+      [
+        root.createComponent(TextBlock, undefined, `Amount of Floors:`),
+        root.createComponent(Stepper, {
+          label: "Floors",
+          value: 0,
+          onChange: (value) => {
+            staircaseFloor = value;
+            renderApp();
+          },
+        }),
+      ]
+    );
     const floorDescription = root.createComponent(BlockStack, undefined, [
       root.createComponent(BlockStack, undefined, [
         root.createComponent(InlineStack, undefined, [
@@ -904,7 +1089,11 @@ extend(
         ]),
       ]),
       root.createComponent(InlineStack, undefined, [
-        root.createComponent(Text, { appearance: "accent" }, "Total staircase charge:"),
+        root.createComponent(
+          Text,
+          { appearance: "accent" },
+          "Total staircase charge:"
+        ),
         root.createComponent(Text, { appearance: "accent" }, [staircasePrice]),
       ]),
     ]);
@@ -922,11 +1111,9 @@ extend(
       [
         imageStaircaseComponent,
         root.createComponent(BlockStack, { spacing: "none" }, [
-          root.createComponent(
-            Text,
-            { size: "medium", emphasis: "strong" },
-            [titleStaircaseMarkup]
-          ),
+          root.createComponent(Text, { size: "medium", emphasis: "strong" }, [
+            titleStaircaseMarkup,
+          ]),
           root.createComponent(Text, { appearance: "subdued" }, [
             priceStaircaseMarkup,
           ]),
@@ -937,7 +1124,13 @@ extend(
     const staircaseBlock = root.createComponent(
       BlockStack,
       { spacing: "loose" },
-      [wardrobeInput, nonwardrobeInput, stepperFloor, floorDescription, addButtonComponentStair]
+      [
+        wardrobeInput,
+        nonwardrobeInput,
+        stepperFloor,
+        floorDescription,
+        addButtonComponentStair,
+      ]
     );
 
     // Defines the main app responsible for rendering a product offer
@@ -946,7 +1139,7 @@ extend(
       root.createComponent(Heading, {}, "Additional delivery options"),
       root.createComponent(BlockStack, { spacing: "loose" }, [
         disposalComponent,
-        staircaseComponent
+        staircaseComponent,
       ]),
     ]);
 
@@ -962,7 +1155,7 @@ extend(
         root.removeChild(loadingState);
         return;
       }
-      
+
       const largeProducts = largeDisposals.filter(
         (product) =>
           !lines.current.map((item) => item.merchandise.id).includes(product.id)
@@ -981,30 +1174,43 @@ extend(
           !lines.current.map((item) => item.merchandise.id).includes(product.id)
       );
       // Choose the first available product variant on offer or display the default fallback product
-      const { id, img, title, description, price } = productsOnOffer[0] || products[0];
+      const { id, img, title, description, price } =
+        productsOnOffer[0] || products[0];
       // Localize the currency for international merchants and customers
-      const renderPrice = i18n.formatCurrency(products[0].price);
-      const renderPriceMedium = i18n.formatCurrency(products[1].price);
-      const renderPriceStaircase = i18n.formatCurrency(productsStaircase[0].price);
+      const renderPrice = i18n.formatCurrency(products[1].price);
+      const renderPriceMedium = i18n.formatCurrency(products[2].price);
+      const renderPriceXL = i18n.formatCurrency(products[0].price);
+      const renderPriceStaircase = i18n.formatCurrency(
+        productsStaircase[0].price
+      );
 
       // Bind data to the components
-      imageComponent.updateProps({ source: products[0].img });
-      titleMarkup.updateText(products[0].title);
-      itemDescription.updateText(products[0].description);
-      addButtonComponent.updateProps({
+      imageXLComponent.updateProps({ source: products[0].img });
+      titleXLMarkup.updateText(products[0].title);
+      itemXLDescription.updateText(products[0].description);
+      addButtonComponentXLDisposal.updateProps({
         accessibilityLabel: `Add ${products[0].title} to cart`,
       });
-      priceMarkup.updateText(renderPrice);
-      merchandise.id = products[0].id;
+      priceXLMarkup.updateText(renderPriceXL);
+      merchandiseXL.id = products[0].id;
 
-      imageMediumComponent.updateProps({ source: products[1].img });
-      titleMediumMarkup.updateText(products[1].title);
-      itemMediumDescription.updateText(products[1].description);
-      addButtonComponentMediumDisposal.updateProps({
+      imageComponent.updateProps({ source: products[1].img });
+      titleMarkup.updateText(products[1].title);
+      itemDescription.updateText(products[1].description);
+      addButtonComponent.updateProps({
         accessibilityLabel: `Add ${products[1].title} to cart`,
       });
+      priceMarkup.updateText(renderPrice);
+      merchandise.id = products[1].id;
+
+      imageMediumComponent.updateProps({ source: products[2].img });
+      titleMediumMarkup.updateText(products[2].title);
+      itemMediumDescription.updateText(products[2].description);
+      addButtonComponentMediumDisposal.updateProps({
+        accessibilityLabel: `Add ${products[2].title} to cart`,
+      });
       priceMediumMarkup.updateText(renderPriceMedium);
-      merchandiseMD.id = products[1].id;
+      merchandiseMD.id = products[2].id;
 
       imageStaircaseComponent.updateProps({ source: productsStaircase[0].img });
       titleStaircaseMarkup.updateText(productsStaircase[0].title);
@@ -1014,30 +1220,22 @@ extend(
       priceStaircaseMarkup.updateText(renderPriceStaircase);
       merchandiseStaircase.id = productsStaircase[0].id;
       wardrobeStaircase.id = productsStaircase[1].id;
-      
-      let wardrobeCharge = wardrobeItems * staircaseFloor * productsStaircase[1].price;
+
+      let wardrobeCharge =
+        wardrobeItems * staircaseFloor * productsStaircase[1].price;
       let wardrobeFee = wardrobeItems * staircaseFloor;
       const renderWardrobeCharge = i18n.formatCurrency(wardrobeCharge);
-      let nonwardrobeCharge = nonwardrobeItems * staircaseFloor * productsStaircase[0].price;
+      let nonwardrobeCharge =
+        nonwardrobeItems * staircaseFloor * productsStaircase[0].price;
       let nonwardrobeFee = nonwardrobeItems * staircaseFloor;
       const renderNonwardrobeCharge = i18n.formatCurrency(nonwardrobeCharge);
-      let electronicCharge = 2 * electronicItems * staircaseFloor * productsStaircase[0].price;
-      let electronicFee = 2 * electronicItems * staircaseFloor;
-      const renderElectronicCharge = i18n.formatCurrency(electronicCharge);
       let staircaseCharge = wardrobeCharge + nonwardrobeCharge;
       const renderStaircaseCharge = i18n.formatCurrency(staircaseCharge);
       wardrobePrice.updateText(renderWardrobeCharge);
       nonwardrobePrice.updateText(renderNonwardrobeCharge);
       staircasePrice.updateText(renderStaircaseCharge);
 
-      totalStaircaseFee = wardrobeFee + nonwardrobeFee
-      
-      if (furnitureDisposal) {
-        disposalComponent.appendChild(disposalChoice);
-      }
-      if (staircaseFee) {
-        staircaseComponent.appendChild(staircaseBlock);
-      }
+      totalStaircaseFee = wardrobeFee + nonwardrobeFee;
 
       // Prevent against unnecessary re-renders
       if (!appRendered) {
