@@ -458,7 +458,8 @@ extend(
                 // An error occurred adding the cart line
                 // Verify that you're using a valid product variant ID
                 // For example, 'gid://shopify/ProductVariant/123'
-                // console.error(result.message);
+                console.error(result.message);
+                console.log("Large Merchandise ID + " + largeMerchandiseID);
                 const errorComponent = root.createComponent(
                   Banner,
                   { status: "critical" },
@@ -571,6 +572,7 @@ extend(
                 // Verify that you're using a valid product variant ID
                 // For example, 'gid://shopify/ProductVariant/123'
                 console.error(result.message);
+                console.log("Medium Merchandise ID + " + mediumMerchandiseID);
                 const errorComponent = root.createComponent(
                   Banner,
                   { status: "critical" },
@@ -653,7 +655,8 @@ extend(
                 // An error occurred adding the cart line
                 // Verify that you're using a valid product variant ID
                 // For example, 'gid://shopify/ProductVariant/123'
-                console.error(result.message);
+                console.error(result.message);            
+                console.log("XL Merchandise ID + " + xlMerchandiseID);
                 const errorComponent = root.createComponent(
                   Banner,
                   { status: "critical" },
