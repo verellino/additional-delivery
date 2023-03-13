@@ -617,7 +617,7 @@ extend(
       { inlineSize: "fill", padding: "none" },
       [
         root.createComponent(Select, {
-          label: "Medium Item",
+          label: "Extra Large Item",
           value: xlMerchandiseID,
           options: [
             {
