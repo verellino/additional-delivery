@@ -389,6 +389,10 @@ extend(
           value: largeMerchandiseID,
           options: [
             {
+              value: null,
+              label: "Large Item",
+            },
+            {
               value: largeDisposals[1].id,
               label: "Sofa",
             },
@@ -500,6 +504,10 @@ extend(
           label: "Medium Item",
           value: mediumMerchandiseID,
           options: [
+            {
+              value: null,
+              label: "Medium Item",
+            },
             {
               value: mediumDisposals[1].id,
               label: "Dining Chair",
@@ -613,6 +621,10 @@ extend(
           value: xlMerchandiseID,
           options: [
             {
+              value: null,
+              label: "Extra Large Item",
+            },
+            {
               value: xlDisposals[1].id,
               label: "Bunk Bed",
             },
@@ -655,7 +667,7 @@ extend(
                 // An error occurred adding the cart line
                 // Verify that you're using a valid product variant ID
                 // For example, 'gid://shopify/ProductVariant/123'
-                console.error(result.message);            
+                console.error(result.message);
                 console.log("XL Merchandise ID + " + xlMerchandiseID);
                 const errorComponent = root.createComponent(
                   Banner,
