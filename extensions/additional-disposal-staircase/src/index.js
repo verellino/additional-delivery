@@ -24,7 +24,7 @@ import {
 const PRODUCT_VARIANTS_DATA = [
   {
     id: "gid://shopify/ProductVariant/40746883547251",
-    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item-updated_1200x.jpg?v=1678729707",
     title: "Extra Large Item Disposal",
     description: "Bunk Bed, L Shape Sofa",
     price: 100.0,
@@ -195,35 +195,35 @@ const MEDIUM_DISPOSAL = [
 const XL_DISPOSAL = [
   {
     id: "gid://shopify/ProductVariant/40746883547251",
-    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item-updated_1200x.jpg?v=1678729707",
     title: "Extra Large Item Disposal",
     description: "Bunk Bed, L Shape Sofa",
     price: 100.0,
   },
   {
     id: "gid://shopify/ProductVariant/40754726731891",
-    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item-updated_1200x.jpg?v=1678729707",
     title: "Pull Out Bed",
     description: "Extra Large Item Disposal - Pull Out Bed",
     price: 100.0,
   },
   {
     id: "gid://shopify/ProductVariant/40746883285107",
-    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item-updated_1200x.jpg?v=1678729707",
     title: "Bunk Bed",
     description: "Extra Large Item Disposal - Bunk Bed",
     price: 100.0,
   },
   {
     id: "gid://shopify/ProductVariant/40746883514483",
-    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item-updated_1200x.jpg?v=1678729707",
     title: "L Shape Sofa",
     description: "Extra Large Item Disposal - L Shape Sofa",
     price: 100.0,
   },
   {
     id: "gid://shopify/ProductVariant/40754726764659",
-    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item-updated_1200x.jpg?v=1678729707",
     title: "Recliner Sofa",
     description: "Extra Large Item Disposal - Recliner Sofa",
     price: 100.0,
