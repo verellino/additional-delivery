@@ -201,6 +201,13 @@ const XL_DISPOSAL = [
     price: 100.0,
   },
   {
+    id: "gid://shopify/ProductVariant/40754726731891",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    title: "Pull Out Bed",
+    description: "Extra Large Item Disposal - Pull Out Bed",
+    price: 100.0,
+  },
+  {
     id: "gid://shopify/ProductVariant/40746883285107",
     img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
     title: "Bunk Bed",
@@ -212,6 +219,13 @@ const XL_DISPOSAL = [
     img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
     title: "L Shape Sofa",
     description: "Extra Large Item Disposal - L Shape Sofa",
+    price: 100.0,
+  },
+  {
+    id: "gid://shopify/ProductVariant/40754726764659",
+    img: "https://cdn.shopify.com/s/files/1/1805/8667/products/Extra-Large-Disposal-Item_0a8b48e2-362a-49e7-a497-ff970895e662.jpg?v=1678162210",
+    title: "Recliner Sofa",
+    description: "Extra Large Item Disposal - Recliner Sofa",
     price: 100.0,
   },
 ];
@@ -390,7 +404,7 @@ extend(
           options: [
             {
               value: null,
-              label: "Large Item",
+              label: "-",
             },
             {
               value: largeDisposals[1].id,
@@ -506,7 +520,7 @@ extend(
           options: [
             {
               value: null,
-              label: "Medium Item",
+              label: "-",
             },
             {
               value: mediumDisposals[1].id,
@@ -622,15 +636,23 @@ extend(
           options: [
             {
               value: null,
-              label: "Extra Large Item",
+              label: "-",
             },
             {
               value: xlDisposals[1].id,
-              label: "Bunk Bed",
+              label: "Pull Out Bed",
             },
             {
               value: xlDisposals[2].id,
+              label: "Bunk Bed",
+            },
+            {
+              value: xlDisposals[3].id,
               label: "L Shape Sofa",
+            },
+            {
+              value: xlDisposals[4].id,
+              label: "Recliner Sofa",
             },
           ],
           onChange: (value) => {
