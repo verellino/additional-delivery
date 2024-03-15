@@ -258,7 +258,7 @@ extend(
     let furnitureDisposal = false;
     let stairValue = "";
     let staircaseFee = false;
-    let staircaseFloor = 0;
+    let staircaseFloor = 1;
     let wardrobeItems = 0;
     let disposalLQty = 0;
     let disposalMQty = 0;
@@ -1106,7 +1106,8 @@ extend(
         root.createComponent(TextBlock, undefined, `Amount of Floors:`),
         root.createComponent(Stepper, {
           label: "Floors",
-          value: 0,
+          value: 1,
+          min: 1,
           onChange: (value) => {
             staircaseFloor = value;
             renderApp();
